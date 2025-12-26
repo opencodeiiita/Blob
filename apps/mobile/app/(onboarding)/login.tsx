@@ -12,22 +12,22 @@ export default function LoginScreen() {
   };
 
   return (
-    <View className="flex-1 justify-between bg-green-50 p-6">
+    <View className="flex-1 justify-between bg-white dark:bg-black p-6">
       <View className="flex-1 items-center justify-center">
-        <Text className="mb-3 text-center text-3xl font-bold text-green-700">Login</Text>
-        <Text className="mb-6 text-center text-lg text-gray-700">
+        <Text className="mb-3 text-center text-3xl font-bold text-green-700 dark:text-green-300">Login</Text>
+        <Text className="mb-6 text-center text-lg text-gray-700 dark:text-gray-300">
           Sign in to continue your learning journey
         </Text>
-        <Text className="px-5 text-center text-sm italic text-gray-600">
+        <Text className="px-5 text-center text-sm italic text-gray-600 dark:text-gray-400">
           (This is a placeholder screen. Tap the button below to simulate login)
         </Text>
       </View>
 
       <Pressable
-        className="mb-5 items-center rounded-xl bg-green-700 px-8 py-4"
+        className="mb-5 items-center rounded-xl bg-green-700 dark:bg-green-600 px-8 py-4"
         onPress={handleLogin}>
         <Text className="text-lg font-semibold text-white">Login</Text>
       </Pressable>
     </View>
   );
-}
+} 

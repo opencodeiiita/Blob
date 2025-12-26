@@ -5,7 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function GettingStartedScreen() {
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={['top', 'left', 'right', 'bottom']}>
+    // Root uses `bg-white dark:bg-black` so the background follows system theme
+    <SafeAreaView className="flex-1 bg-white dark:bg-black" edges={['top', 'left', 'right', 'bottom']}>
       <View className="flex-1 px-8 pb-10 pt-16">
         {/* Hero Section */}
         <View className="flex-1 items-center justify-center">
@@ -15,11 +16,11 @@ export default function GettingStartedScreen() {
             <Image source={require('../../assets/adaptive-icon.png')} className="h-60 w-60" />
           </View>
 
-          <Text className="mb-4 text-center text-4xl font-extrabold tracking-tight text-gray-900">
-            Learn Smarter with <Text className="text-orange-500">Blob</Text>
+          <Text className="mb-4 text-center text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+            Learn Smarter with <Text className="text-orange-500 dark:text-orange-400">Blob</Text>
           </Text>
 
-          <Text className="text-center text-lg leading-7 text-gray-500">
+          <Text className="text-center text-lg leading-7 text-gray-500 dark:text-gray-300">
             Your AI-powered study companion. Transform notes into interactive flashcards and quizzes
             instantly.
           </Text>
@@ -38,7 +39,7 @@ export default function GettingStartedScreen() {
         </View>
 
         {/* Footer info */}
-        <Text className="mt-auto text-center text-xs text-gray-400">
+        <Text className="mt-auto text-center text-xs text-gray-400 dark:text-gray-500">
           By continuing, you agree to our Terms and Privacy Policy
         </Text>
       </View>
