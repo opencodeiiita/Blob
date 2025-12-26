@@ -5,4 +5,9 @@ type Contributor = {
   website?: string | undefined;
 };
 
-export const CONTRIBUTORS: Contributor[] = [];
+export const CONTRIBUTORS: Contributor[] = [
+  {
+    name: 'Pranshu Sethi',
+    github: 'iampranshusethi',
+  },
+];
