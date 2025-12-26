@@ -10,7 +10,7 @@ export const EditScreenInfo = ({ path }: { path: string }) => {
       <View className={styles.getStartedContainer}>
         <Text className={styles.getStartedText}>{title}</Text>
         <View className={styles.codeHighlightContainer + styles.homeScreenFilename}>
-          <Text>{path}</Text>
+          <Text className="text-black dark:text-white">{path}</Text>
         </View>
         <Text className={styles.getStartedText}>{description}</Text>
       </View>
@@ -19,11 +19,11 @@ export const EditScreenInfo = ({ path }: { path: string }) => {
 };
 
 const styles = {
-  codeHighlightContainer: `rounded-md px-1`,
+  codeHighlightContainer: `rounded-md px-1 bg-gray-100 dark:bg-gray-800`,
   getStartedContainer: `items-center mx-12`,
-  getStartedText: `text-lg leading-6 text-center`,
+  getStartedText: `text-lg leading-6 text-center text-gray-700 dark:text-gray-300`,
   helpContainer: `items-center mx-5 mt-4`,
   helpLink: `py-4`,
-  helpLinkText: `text-center`,
+  helpLinkText: `text-center text-blue-600 dark:text-blue-400`,
   homeScreenFilename: `my-2`,
 };

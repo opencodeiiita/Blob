@@ -21,39 +21,39 @@ export default function Home() {
       <Container>
         <ScreenContent path="app/index.tsx" title="Home">
           <View className="mt-4 space-y-4">
-            <Text className="text-sm text-gray-600">API URL: {getApiUrl()}</Text>
+            <Text className="text-sm text-gray-600 dark:text-gray-400">API URL: {getApiUrl()}</Text>
 
-            <View className="rounded border border-gray-200 p-4">
-              <Text className="mb-2 font-bold">Hello Query:</Text>
+            <View className="rounded border border-gray-200 dark:border-gray-800 p-4">
+              <Text className="mb-2 font-bold text-black dark:text-white">Hello Query:</Text>
               {helloQuery.isLoading && <ActivityIndicator />}
               {helloQuery.error && (
-                <Text className="text-red-500">Error: {helloQuery.error.message}</Text>
+                <Text className="text-red-500 dark:text-red-400">Error: {helloQuery.error.message}</Text>
               )}
               {helloQuery.data && (
-                <Text className="text-green-600">{helloQuery.data.greeting}</Text>
+                <Text className="text-green-600 dark:text-green-400">{helloQuery.data.greeting}</Text>
               )}
             </View>
 
-            <View className="rounded border border-gray-200 p-4">
-              <Text className="mb-2 font-bold">Server Time Query:</Text>
+            <View className="rounded border border-gray-200 dark:border-gray-800 p-4">
+              <Text className="mb-2 font-bold text-black dark:text-white">Server Time Query:</Text>
               {timeQuery.isLoading && <ActivityIndicator />}
               {timeQuery.error && (
-                <Text className="text-red-500">Error: {timeQuery.error.message}</Text>
+                <Text className="text-red-500 dark:text-red-400">Error: {timeQuery.error.message}</Text>
               )}
-              {timeQuery.data && <Text className="text-blue-600">{timeQuery.data.time}</Text>}
+              {timeQuery.data && <Text className="text-blue-600 dark:text-blue-400">{timeQuery.data.time}</Text>}
             </View>
 
-            <View className="rounded border border-gray-200 p-4">
-              <Text className="mb-2 font-bold">Echo Mutation:</Text>
+            <View className="rounded border border-gray-200 dark:border-gray-800 p-4">
+              <Text className="mb-2 font-bold text-black dark:text-white">Echo Mutation:</Text>
               <Button
                 title={echoMutation.isPending ? 'Sending...' : 'Test Echo'}
                 onPress={handleEcho}
               />
               {echoMutation.error && (
-                <Text className="mt-2 text-red-500">Error: {echoMutation.error.message}</Text>
+                <Text className="mt-2 text-red-500 dark:text-red-400">Error: {echoMutation.error.message}</Text>
               )}
               {echoMutation.data && (
-                <Text className="mt-2 text-green-600">Response: {echoMutation.data.message}</Text>
+                <Text className="mt-2 text-green-600 dark:text-green-400">Response: {echoMutation.data.message}</Text>
               )}
             </View>
 
@@ -68,5 +68,5 @@ export default function Home() {
 }
 
 const styles = {
-  container: 'flex flex-1 bg-white',
+  container: 'flex flex-1 bg-white dark:bg-black',
 };
