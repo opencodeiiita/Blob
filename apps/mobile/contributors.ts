@@ -94,5 +94,8 @@ export const CONTRIBUTORS: Contributor[] = [
     name:'Aiyaan Mahajan',
     github:'Aiyaan-Mahajan',
   },
-  
+  {
+    name: 'Aryan Gupta',
+    github: 'Aryan0512398',
+  }
 ];
