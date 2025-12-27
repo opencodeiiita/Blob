@@ -14,7 +14,11 @@ app.use(
 );
 
 app.get("/health", async (c) => {
-  return c.json({ message: "healthy", status: "ok" });
+  return c.json({
+    status: "ok",
+    service: "blob-server",
+    timestamp: new Date().toISOString()
+  });
 });
 
 app.use(
