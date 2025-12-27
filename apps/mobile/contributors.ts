@@ -65,9 +65,16 @@ export const CONTRIBUTORS: Contributor[] = [
   {
     name: 'Lakshmish S G',
     github: 'Coldesy',
-  }
+  },
   {
     name: 'BEESA MANISH',
     github: 'MANISH-BEESA',
   }
+  ,
+  {
+    name:'NAVDEEP R',
+    github:'navdeep-r',
+  }
+
+
 ];
