@@ -102,4 +102,8 @@ export const CONTRIBUTORS: Contributor[] = [
     name:'Sanjay Rohith L',
     github:'sanjayrohith',
   },
+  {
+    name:'Krish Sushil Kinger',
+    github:'KRISHH-33',
+  },
 ];
