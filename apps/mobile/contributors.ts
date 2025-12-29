@@ -99,15 +99,15 @@ export const CONTRIBUTORS: Contributor[] = [
     github: 'Aryan0512398',
   },
   {
-    name:'Sanjay Rohith L',
-    github:'sanjayrohith',
+    name: 'Sanjay Rohith L',
+    github: 'sanjayrohith',
   },
   {
-    name:'Chithra R',
+    name: 'Chithra R',
     github: 'Chithra582',
   },
   {
-    name:'Soham Agarwal',
+    name: 'Soham Agarwal',
     github: 'SohamSDA',
   },
   {
@@ -121,8 +121,11 @@ export const CONTRIBUTORS: Contributor[] = [
   {
     name: 'Chauhan Devan',
     github: 'Devan019'
-  },{
+  }, {
     name: 'Aaryan Degama',
     github: 'Aaryan-Degama'
+  }, {
+    name: 'Prashant Bisht',
+    github: 'prashant2007-wq'
   }
 ];
