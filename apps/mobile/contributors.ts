@@ -1,3 +1,4 @@
+
 type Contributor = {
   name: string;
   github: string;
@@ -148,4 +149,6 @@ export const CONTRIBUTORS: Contributor[] = [
     name:"Sujal Kshatri",
     github:'suzzzal',
   }
+  { name:"Yogesh M"
+    github: "yogesh4216"
 ];
