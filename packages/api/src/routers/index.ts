@@ -2,9 +2,15 @@ import { z } from "zod";
 import { router, publicProcedure } from "../server.js";
 import { oauthAccounts, users } from "@blob/db/schema";
 import { OAuth2Client } from "google-auth-library";
-import {eq} from "drizzle-orm";
+import { eq } from "drizzle-orm";
+import jwt from "jsonwebtoken";
 
 const client = new OAuth2Client();
+
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET environment variable is required");
+}
 
 export const appRouter = router({
   hello: publicProcedure
@@ -92,9 +98,17 @@ export const appRouter = router({
             },
           });
 
+        // Generate JWT with only the userId
+        const token = jwt.sign(
+          { userId: user.id },
+          JWT_SECRET,
+          { expiresIn: "7d" }
+        );
+
         return {
           success: true,
           user: payload,
+          token,
         };
       } catch (error) {
         console.error("Google token verification failed:", error);
