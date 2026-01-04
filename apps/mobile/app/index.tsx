@@ -1,13 +1,17 @@
-import { Redirect } from 'expo-router';
-
-import { useAuthStore } from '@/store/authStore';
+import { View, Text } from 'react-native';
+import { useEffect } from 'react';
+import { initDatabase } from '../src/db';
 
 export default function Index() {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  useEffect(() => {
+    initDatabase()
+      .then(() => console.log('SQLite initialized'))
+      .catch(err => console.error('SQLite init failed', err));
+  }, []);
 
-  if (isAuthenticated) {
-    return <Redirect href="/(tabs)/home" />;
-  }
-
-  return <Redirect href="/(onboarding)/getting-started" />;
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home</Text>
+    </View>
+  );
 }
