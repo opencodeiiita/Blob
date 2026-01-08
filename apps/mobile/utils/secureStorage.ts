@@ -1,3 +1,7 @@
+/**
+ * Secure storage utilities for authentication data
+ * Uses expo-secure-store for encrypted storage on device
+ */
 import * as SecureStore from 'expo-secure-store';
 
 const TOKEN_KEY = 'auth_token';
