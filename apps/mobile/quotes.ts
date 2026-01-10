@@ -1,30 +1,22 @@
-/**
- * Quotes displayed on loading screens to make wait times feel lighter.
- *
- * Guidelines:
- * - Short and readable at a glance
- * - Calm, reassuring, and progress-oriented
- * - Neutral and suitable for all users
- */
-
 export const quotes: string[] = [
-  // Progress & reassurance
+  "Good things take time",
+  "Almost there… great things loading",
+  "Loading your experience, please wait",
+  "Patience is the key to something amazing",
+  "Preparing something awesome for you",
+  "Hang tight! We’re getting things ready",
+  "Every moment counts—loading in progress",
+  "Your content is on its way",
   "Getting things ready for you",
   "Just a moment — we're on it",
   "Loading your experience",
   "Almost there",
-
-  // Calm & patience
   "Good things take a moment",
   "Thanks for your patience",
   "Worth the wait",
-
-  // Positive anticipation
   "Something good is coming",
   "Preparing something awesome",
   "Your journey continues",
-
-  // Friendly & human
   "Hang tight",
   "We’re setting things up",
   "Making things smooth for you",
