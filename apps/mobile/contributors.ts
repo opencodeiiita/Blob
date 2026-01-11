@@ -7,6 +7,10 @@ type Contributor = {
 };
 export const CONTRIBUTORS: Contributor[] = [
   {
+    name: 'Rudra Mina',
+    github: 'rudraminaa',
+  },
+  {
     name: 'Pranshu Sethi',
     github: 'iampranshusethi',
   },
