@@ -18,10 +18,6 @@ export interface TopicInput {
   updatedAt: Date;
 }
 
-/**
- * Insert a topic into mobile SQLite.
- * Call this after successful createTopic tRPC response.
- */
 export async function insertTopic(topic: TopicInput): Promise<void> {
   const db = await getDatabase();
   await db.runAsync(
@@ -38,9 +34,6 @@ export async function insertTopic(topic: TopicInput): Promise<void> {
   );
 }
 
-/**
- * Get all topics for a user from mobile SQLite.
- */
 export async function getTopicsByUserId(userId: string): Promise<Topic[]> {
   const db = await getDatabase();
   return db.getAllAsync<Topic>(
@@ -49,9 +42,6 @@ export async function getTopicsByUserId(userId: string): Promise<Topic[]> {
   );
 }
 
-/**
- * Get a single topic by ID from mobile SQLite.
- */
 export async function getTopicById(topicId: string): Promise<Topic | null> {
   const db = await getDatabase();
   return db.getFirstAsync<Topic>('SELECT * FROM topics WHERE id = ?', [topicId]);
