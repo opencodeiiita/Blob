@@ -55,4 +55,9 @@ export const quotes: string[] = [
   "Intentional progress underway.",
   "Small waits, better results.",
   "Shaping a smoother path.",
+  "Thought thinked.",
+  "Sleep Slept.",
+  "pspsps pspsps.",
+  "Bogos binted.",
+  "Tables Turned.",
 ];
