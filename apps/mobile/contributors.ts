@@ -1,11 +1,15 @@
+
 type Contributor = {
   name: string;
   github: string;
   twitter?: string | undefined;
   website?: string | undefined;
 };
-
 export const CONTRIBUTORS: Contributor[] = [
+  {
+    name: 'Rudra Mina',
+    github: 'rudraminaa',
+  },
   {
     name: 'Pranshu Sethi',
     github: 'iampranshusethi',
@@ -124,10 +128,45 @@ export const CONTRIBUTORS: Contributor[] = [
   },{
     name: 'Aaryan Degama',
     github: 'Aaryan-Degama'
-  }
+  },
   {
   name: "Dharshini D",
   github: 'Dharshin1',
-  }
-
+  },
+  {
+  name: "Sourish Awasthi",
+  github: 'LooninS',
+  },
+  {
+  name: 'Khushi Shorey',
+  github: 'khuhshishorey'
+  },
+  {
+  name: 'Himansh Arora',
+  github: 'Humanshere'
+  },
+  {
+  name: 'prashant kumar dwivedi',
+  github: 'dwivediprashant'
+  },
+  {
+    name:"Tejinderpal Singh",
+    github:'Tejinder105',
+  },
+  {
+    name:"Sujal Kshatri",
+    github:'suzzzal',
+  },
+  { 
+    name:"Yogesh M",
+    github: "yogesh4216",
+  },
+  { 
+    name:"Devanshu Chotiya",
+    github: "devanshuwebd",
+  },
+  {
+    name:"Aakriti Singh",
+    github:"AakritiSingh05",
+  },
 ];

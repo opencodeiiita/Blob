@@ -1,136 +1,196 @@
 import { useEffect, useRef } from 'react';
-import {
-  View,
-  Text,
-  Pressable,
-  Image,
-  ScrollView,
-  useWindowDimensions,
-  Animated,
-} from 'react-native';
+import { View, Text, Pressable, Image, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function GettingStartedScreen() {
-  const { width } = useWindowDimensions();
-
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(30)).current;
-  const logoScale = useRef(new Animated.Value(0.9)).current;
+  const slideAnim = useRef(new Animated.Value(50)).current;
+  const logoScale = useRef(new Animated.Value(0.5)).current;
+  const logoRotate = useRef(new Animated.Value(0)).current;
+  const titleSlide = useRef(new Animated.Value(30)).current;
   const titleFade = useRef(new Animated.Value(0)).current;
-  const descFade = useRef(new Animated.Value(0)).current;
-  const buttonScale = useRef(new Animated.Value(0.95)).current;
+  const descriptionSlide = useRef(new Animated.Value(20)).current;
+  const descriptionFade = useRef(new Animated.Value(0)).current;
+  const buttonScale = useRef(new Animated.Value(0.9)).current;
   const buttonOpacity = useRef(new Animated.Value(0)).current;
+  const buttonSlide = useRef(new Animated.Value(20)).current;
+  const footerFade = useRef(new Animated.Value(0)).current;
 
-  const imageSize = Math.min(width * 0.5, 180);
+  // Add breathing effect to logo after initial animation
+  const breathingAnimation = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
+    // Main animation sequence
     Animated.sequence([
+      // Stage 1: Container fade in and logo entrance
       Animated.parallel([
         Animated.timing(fadeAnim, {
           toValue: 1,
-          duration: 600,
+          duration: 800,
           useNativeDriver: true,
         }),
         Animated.timing(slideAnim, {
           toValue: 0,
-          duration: 600,
+          duration: 800,
           useNativeDriver: true,
         }),
         Animated.spring(logoScale, {
           toValue: 1,
-          tension: 50,
-          friction: 7,
+          tension: 40,
+          friction: 8,
+          useNativeDriver: true,
+        }),
+        Animated.timing(logoRotate, {
+          toValue: 1,
+          duration: 800,
           useNativeDriver: true,
         }),
       ]),
-      Animated.timing(titleFade, {
-        toValue: 1,
-        duration: 500,
-        delay: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(descFade, {
-        toValue: 1,
-        duration: 500,
-        delay: 100,
-        useNativeDriver: true,
-      }),
+      
+      // Stage 2: Title animation
+      Animated.parallel([
+        Animated.timing(titleFade, {
+          toValue: 1,
+          duration: 600,
+          useNativeDriver: true,
+        }),
+        Animated.spring(titleSlide, {
+          toValue: 0,
+          tension: 50,
+          friction: 8,
+          useNativeDriver: true,
+        }),
+      ]),
+      
+      // Stage 3: Description animation
+      Animated.parallel([
+        Animated.timing(descriptionFade, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.spring(descriptionSlide, {
+          toValue: 0,
+          tension: 50,
+          friction: 8,
+          useNativeDriver: true,
+        }),
+      ]),
+    ]).start(() => {
+      // Stage 4: Button and footer animation
       Animated.parallel([
         Animated.spring(buttonScale, {
           toValue: 1,
-          tension: 50,
+          tension: 60,
           friction: 7,
           useNativeDriver: true,
         }),
         Animated.timing(buttonOpacity, {
           toValue: 1,
-          duration: 400,
+          duration: 500,
           useNativeDriver: true,
         }),
-      ]),
-    ]).start();
+        Animated.timing(buttonSlide, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(footerFade, {
+          toValue: 1,
+          duration: 600,
+          delay: 200,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        // Start breathing animation for logo after everything loads
+        Animated.loop(
+          Animated.sequence([
+            Animated.timing(breathingAnimation, {
+              toValue: 1.05,
+              duration: 2000,
+              useNativeDriver: true,
+            }),
+            Animated.timing(breathingAnimation, {
+              toValue: 1,
+              duration: 2000,
+              useNativeDriver: true,
+            }),
+          ])
+        ).start();
+      });
+    });
   }, []);
+
+  const logoRotateInterpolate = logoRotate.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['-10deg', '0deg'],
+  });
 
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-gray-950" edges={['top', 'left', 'right']}>
-      <ScrollView
-        className="flex-1"
-        contentContainerClassName="flex-grow justify-between px-6 py-8"
-        showsVerticalScrollIndicator={false}
-        bounces={false}>
-        <Animated.View
-          className="min-h-[200px] flex-1 items-center justify-center"
+      <Animated.View
+        className="flex-1 items-center justify-center px-6"
+        style={{
+          opacity: fadeAnim,
+          transform: [{ translateY: slideAnim }],
+        }}>
+        <Animated.Image
+          source={require('../../assets/adaptive-icon.png')}
           style={{
-            opacity: fadeAnim,
-            transform: [{ translateY: slideAnim }],
+            width: 150,
+            height: 150,
+            marginBottom: 32,
+            transform: [
+              { scale: Animated.multiply(logoScale, breathingAnimation) },
+              { rotate: logoRotateInterpolate },
+            ],
+          }}
+          resizeMode="contain"
+        />
+
+        <Animated.View
+          style={{
+            opacity: titleFade,
+            transform: [{ translateY: titleSlide }],
           }}>
-          <Animated.View
-            className="mb-8 items-center"
-            style={{ transform: [{ scale: logoScale }] }}>
-            <Image
-              source={require('../../assets/adaptive-icon.png')}
-              style={{ width: imageSize, height: imageSize }}
-              resizeMode="contain"
-            />
-          </Animated.View>
-
-          <Animated.View style={{ opacity: titleFade }}>
-            <Text
-              className="mb-4 px-6 text-center text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white"
-            >
-              Learn Smarter with <Text className="text-orange-500">Blob</Text>
-            </Text>
-          </Animated.View>
-
-          <Animated.View style={{ opacity: descFade }}>
-            <Text className="px-6 text-center text-lg leading-6 text-gray-600 dark:text-gray-400">
-              AI-powered study companion.
-            </Text>
-            <Text className="px-6 text-center text-lg leading-6 text-gray-600 dark:text-gray-400">
-              Explore any topic through flashcards, quizzes, and mind maps.
-            </Text>
-          </Animated.View>
+          <Text className="mb-4 text-center text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+            Learn Smarter with <Text className="text-orange-500">Blob</Text>
+          </Text>
         </Animated.View>
 
         <Animated.View
-          className="mt-6"
-          style={{ transform: [{ scale: buttonScale }], opacity: buttonOpacity }}>
-          <Pressable
-            className="mb-4 h-14 items-center justify-center rounded-2xl bg-orange-500 shadow-lg shadow-orange-200 active:bg-orange-600"
-            onPress={() => router.push('/(onboarding)/login')}>
-            <View className="flex-row items-center">
-              <Text className="mr-2 text-lg font-bold text-white">Get Started</Text>
-              <Ionicons name="arrow-forward" size={20} color="white" />
-            </View>
-          </Pressable>
+          style={{
+            opacity: descriptionFade,
+            transform: [{ translateY: descriptionSlide }],
+          }}>
+          <Text className="px-5 text-center text-lg leading-6 text-gray-500 dark:text-gray-400">
+            Your AI-powered study companion. Transform notes into interactive flashcards and quizzes
+            instantly.
+          </Text>
+        </Animated.View>
+      </Animated.View>
 
+      <Animated.View
+        className="px-6 pb-8"
+        style={{
+          transform: [{ scale: buttonScale }, { translateY: buttonSlide }],
+          opacity: buttonOpacity,
+        }}>
+        <Pressable
+          className="mb-4 h-14 flex-row items-center justify-center rounded-2xl bg-orange-500 shadow-sm active:bg-orange-600 dark:bg-orange-600 dark:active:bg-orange-700"
+          onPress={() => router.push('/(onboarding)/login')}>
+          <Text className="mr-2 text-lg font-semibold text-white">Continue</Text>
+          <Ionicons name="arrow-forward" size={18} color="white" />
+        </Pressable>
+
+        <Animated.View style={{ opacity: footerFade }}>
           <Text className="px-4 text-center text-xs leading-5 text-gray-400 dark:text-gray-500">
             By continuing, you agree to our Terms and Privacy Policy
           </Text>
         </Animated.View>
-      </ScrollView>
+      </Animated.View>
     </SafeAreaView>
   );
 }

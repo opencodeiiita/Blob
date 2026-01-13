@@ -7,8 +7,8 @@ import { useAuthStore } from '@/store/authStore';
 export default function ProfileScreen() {
   const logout = useAuthStore((state) => state.logout);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     router.replace('/(onboarding)/getting-started');
   };
 

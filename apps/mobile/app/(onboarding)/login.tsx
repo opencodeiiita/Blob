@@ -1,7 +1,19 @@
-import { useEffect, useRef } from 'react';
-import { View, Text, Pressable, ScrollView, useWindowDimensions, Animated } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import {
+  View,
+  Text,
+  Pressable,
+  ScrollView,
+  useWindowDimensions,
+  Animated,
+  Alert,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { signInWithGoogle, isGoogleSignInAvailable } from '@/hooks/useGoogleAuth';
+import { router } from 'expo-router';
+import { trpc } from '@/utils/trpc';
+import { useAuthStore } from '@/store/authStore';
 
 const FLOW_STEPS = [
   {
@@ -19,8 +31,6 @@ const FLOW_STEPS = [
 ];
 
 export default function LoginScreen() {
-  const { width } = useWindowDimensions();
-
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(30)).current;
   const titleFade = useRef(new Animated.Value(0)).current;
@@ -35,7 +45,6 @@ export default function LoginScreen() {
   ).current;
 
   useEffect(() => {
-    // Animate title first
     Animated.sequence([
       Animated.parallel([
         Animated.timing(fadeAnim, {
@@ -55,13 +64,12 @@ export default function LoginScreen() {
         useNativeDriver: true,
       }),
     ]).start(() => {
-      // After title, animate steps one by one
       const stepAnimations = stepAnims.map((anim, index) =>
         Animated.parallel([
           Animated.timing(anim.opacity, {
             toValue: 1,
             duration: 400,
-            delay: index * 150, // Stagger each step by 150ms
+            delay: index * 150,
             useNativeDriver: true,
           }),
           Animated.spring(anim.translateY, {
@@ -96,7 +104,41 @@ export default function LoginScreen() {
     });
   }, []);
 
-  const handleGoogleSignIn = () => {
+  const login = useAuthStore((state) => state.login);
+  const verifyToken = trpc.verifyGoogleToken.useMutation();
+
+  const handleGoogleSignIn = async () => {
+    if (!isGoogleSignInAvailable()) {
+      Alert.alert(
+        'Dev Build Required',
+        'Google Sign-In is only available in dev builds. For testing in Expo Go, you will be redirected to the home screen.',
+        [{ text: 'OK', onPress: () => router.push('/(tabs)/home') }]
+      );
+      return;
+    }
+
+    try {
+      const { idToken } = await signInWithGoogle();
+      if (!idToken) {
+        Alert.alert('Sign-In Error', 'Failed to get ID token from Google.');
+        return;
+      }
+      const result = await verifyToken.mutateAsync({ idToken });
+
+      if (result.success && result.token && result.user) {
+        await login(result.token, {
+          id: result.user.id,
+          name: result.user.name,
+          email: result.user.email,
+          image: result.user.image,
+        });
+      }
+
+      router.replace('/(tabs)/home');
+    } catch (error) {
+      console.error('Sign-in error:', error);
+      Alert.alert('Sign-In Error', 'Failed to sign in with Google. Please try again.');
+    }
   };
 
   return (
