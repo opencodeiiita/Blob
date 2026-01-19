@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { router, publicProcedure } from "../server.js";
 import { users } from "@blob/db/schema";
+import { generateRouter } from "./generate.js";
 
 // example test router
 export const appRouter = router({
@@ -28,7 +29,9 @@ export const appRouter = router({
   testDB: publicProcedure
     .query(({ ctx }) => {
       return ctx.db.select().from(users)
-    })
+    }),
+  
+  generate: generateRouter,
 });
 
 export type AppRouter = typeof appRouter;
