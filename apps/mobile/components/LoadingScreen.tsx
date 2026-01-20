@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import quotes from '../utils/quotes';
+import quotes from '../quotes';
 
 export default function LoadingScreen() {
   const quote = useMemo(() => {
