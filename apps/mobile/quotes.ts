@@ -76,4 +76,13 @@ export const quotes: string[] = [
   "Bogos binted.",
   "Tables Turned.",
   "Simplicity is the ultimate sophistication.",
+  "Just a moment, aligning things perfectly.",
+  "Good flow takes a little time.",
+  "Refining the experience.",
+  "Consistency over speed.",
+  "Building with intention.",
+  "Loading with care.",
+  "Almost aligned.",
+  "Settling in.",
+  
 ];
