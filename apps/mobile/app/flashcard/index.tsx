@@ -3,42 +3,36 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from 'nativewind';
+import { useState } from 'react';
+import { RefreshControl } from 'react-native';
+import { trpc } from '@/utils/trpc';
 
-const PLACEHOLDER_FLASHCARDS = [
-  {
-    id: '1',
-    front: 'What is a variable?',
-    back: 'A container for storing data values',
-    difficulty: 'easy',
-  },
-  {
-    id: '2',
-    front: 'What is a function?',
-    back: 'A reusable block of code that performs a specific task',
-    difficulty: 'medium',
-  },
-  {
-    id: '3',
-    front: 'What is closure?',
-    back: 'A function that has access to variables from its outer scope',
-    difficulty: 'hard',
-  },
-];
 
 export default function FlashcardsListScreen() {
   const { topicId } = useLocalSearchParams<{ topicId: string }>();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  const isLoading = false;
-  const flashcards = PLACEHOLDER_FLASHCARDS;
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
 
   const handleStudy = () => {
-    router.push(`/flashcard/study?topicId=${topicId}`);
+    router.push({
+      pathname: '/flashcard/study',
+      params: { topicId },
+    });
   };
 
   const handleCreateFlashcard = () => {
-    router.push(`/flashcard/create?topicId=${topicId}`);
+    // router.push({
+    //   pathname: '/flashcard/create',
+    //   params: { topicId },
+    // });
   };
 
   const handleGenerateWithAI = () => {
@@ -58,10 +52,47 @@ export default function FlashcardsListScreen() {
     }
   };
 
+  if (!topicId || typeof topicId !== 'string') {
+    return (
+      <SafeAreaView className="flex-1 items-center justify-center bg-white dark:bg-black">
+        <Text className="text-gray-500 dark:text-gray-400">
+          Invalid topic
+        </Text>
+      </SafeAreaView>
+    );
+  }
+
+  const {
+    data,
+    isLoading,
+    error,
+    refetch,
+  } = trpc.flashcards.getByTopic.useQuery(
+    { topicId },
+    { enabled: !!topicId }
+  );
+  
+  const flashcards = data?.flashcards ?? [];
+
   if (isLoading) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center bg-white dark:bg-black">
         <ActivityIndicator size="large" color={isDark ? '#60A5FA' : '#2563EB'} />
+      </SafeAreaView>
+    );
+  }
+
+  if (error) {
+    return (
+      <SafeAreaView className="flex-1 items-center justify-center bg-white dark:bg-black">
+        <Text className="mb-2 text-gray-700 dark:text-gray-300">
+          Failed to load flashcards
+        </Text>
+        <Pressable
+          onPress={() => refetch()}
+          className="rounded-lg bg-blue-600 px-4 py-2">
+          <Text className="font-semibold text-white">Retry</Text>
+        </Pressable>
       </SafeAreaView>
     );
   }
@@ -108,6 +139,13 @@ export default function FlashcardsListScreen() {
           <FlatList
             data={flashcards}
             keyExtractor={(item) => item.id}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                tintColor={isDark ? '#60A5FA' : '#2563EB'}
+              />
+            }
             renderItem={({ item, index }) => (
               <Pressable className="mb-3 rounded-xl bg-gray-50 p-4 active:bg-gray-100 dark:bg-gray-900 dark:active:bg-gray-800">
                 <View className="mb-2 flex-row items-center justify-between">
