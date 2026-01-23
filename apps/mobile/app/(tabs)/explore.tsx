@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ExploreScreen() {
   return (
-    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-gray-900" edges={['bottom']}>
+    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-gray-900" edges={['top', 'bottom']}>
       <View className="flex-1 items-center justify-center p-6">
         <Text className="mb-3 text-center text-3xl font-bold text-orange-600 dark:text-orange-400">
           Explore

@@ -1,17 +1,18 @@
-import { View, Text } from 'react-native';
-import { useEffect } from 'react';
-import { initDatabase } from '../src/db';
+import { Redirect } from 'expo-router';
+import { useAuthStore } from '@/store/authStore';
+import { LoadingScreen } from '@/components/LoadingScreen';
 
 export default function Index() {
-  useEffect(() => {
-    initDatabase()
-      .then(() => console.log('SQLite initialized'))
-      .catch(err => console.error('SQLite init failed', err));
-  }, []);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isLoading = useAuthStore((state) => state.isLoading);
 
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home</Text>
-    </View>
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  return isAuthenticated ? (
+    <Redirect href="/(tabs)/home" />
+  ) : (
+    <Redirect href="/(onboarding)/getting-started" />
   );
 }

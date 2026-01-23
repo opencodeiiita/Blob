@@ -9,6 +9,7 @@ import { httpBatchLink } from '@trpc/client';
 import superjson from 'superjson';
 import { trpc } from './trpc';
 import { getTrpcUrl } from './api';
+import { getToken } from './secureStorage';
 
 interface TRPCProviderProps {
   children: React.ReactNode;
@@ -33,6 +34,10 @@ export function TRPCProvider({ children }: TRPCProviderProps) {
         httpBatchLink({
           url: getTrpcUrl(),
           transformer: superjson,
+          async headers() {
+            const token = await getToken();
+            return token ? { authorization: `Bearer ${token}` } : {};
+          },
         }),
       ],
     })

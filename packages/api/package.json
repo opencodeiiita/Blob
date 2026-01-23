@@ -21,6 +21,7 @@
     "@blob/db": "workspace:*",
     "@trpc/client": "^11.0.0",
     "@trpc/server": "^11.0.0",
+    "drizzle-orm": "^0.36.4",
     "google-auth-library": "^10.5.0",
     "jsonwebtoken": "^9.0.3",
     "superjson": "^2.2.1",

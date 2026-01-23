@@ -7,6 +7,10 @@ type Contributor = {
 };
 export const CONTRIBUTORS: Contributor[] = [
   {
+    name: 'Rudra Mina',
+    github: 'rudraminaa',
+  },
+  {
     name: 'Pranshu Sethi',
     github: 'iampranshusethi',
   },
@@ -148,11 +152,29 @@ export const CONTRIBUTORS: Contributor[] = [
   {
     name:"Tejinderpal Singh",
     github:'Tejinder105',
-  }
+  },
   {
     name:"Sujal Kshatri",
     github:'suzzzal',
-  }
-  { name:"Yogesh M"
-    github: "yogesh4216"
+  },
+  { 
+    name:"Yogesh M",
+    github: "yogesh4216",
+  },
+  { 
+    name:"Devanshu Chotiya",
+    github: "devanshuwebd",
+  },
+  {
+    name:"Aakriti Singh",
+    github:"AakritiSingh05",
+  },
+  {
+    name:"Vibhu Tomer",
+    github:"vibhutomer",
+  },
+  {
+    name:"Eshaan Agrawal",
+    github:"eshaanag",
+  },
 ];
