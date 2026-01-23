@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import quotes from '../quotes';
+import { quotes } from '../quotes';
 
 export default function LoadingScreen() {
   const quote = useMemo(() => {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   quote: {
     fontSize: 14,
-    color: '#c2410c', 
+    color: '#c2410c',
     textAlign: 'center',
     lineHeight: 21,
     fontWeight: '500',
