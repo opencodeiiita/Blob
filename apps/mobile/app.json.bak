@@ -3,7 +3,6 @@
     "name": "blob",
     "slug": "blob",
     "version": "1.0.0",
-
     "scheme": "mobile",
     "platforms": ["ios", "android"],
     "web": {
@@ -14,15 +13,11 @@
     "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true,
-
       "tsconfigPaths": true
     },
-
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-
     "userInterfaceStyle": "light",
-
     "splash": {
       "image": "./assets/icon.png",
       "resizeMode": "contain",
@@ -30,13 +25,22 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.calc.blob"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.calc.blob"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "77cc3449-ffd5-48db-beaa-8a0dfee141bf"
       }
-    }
+    },
+    "owner": "calc"
   }
 }

@@ -15,7 +15,8 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "env": ["ANDROID_HOME"]
     },
     "db:generate": {
       "cache": false,

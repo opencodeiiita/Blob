@@ -1,23 +1,25 @@
-import { useColorScheme } from "nativewind"
-import { Switch } from "react-native"
-
-
+import { Switch } from "react-native";
+import { useColorScheme } from "nativewind";
 
 export const ThemeSwitcher = () => {
-  const { toggleColorScheme, colorScheme
-  } = useColorScheme()
+  const { toggleColorScheme, colorScheme } = useColorScheme();
+
+  // useEffect(() => {
+  //   if (colorScheme === "dark") {
+  //     NavigationBar.setBackgroundColorAsync("#000000");
+  //     NavigationBar.setButtonStyleAsync("light");
+  //   } else {
+  //     NavigationBar.setBackgroundColorAsync("#ffffff");
+  //     NavigationBar.setButtonStyleAsync("dark");
+  //   }
+  // }, [colorScheme]);
 
   return (
     <Switch
-      onChange={() => {
-        toggleColorScheme()
-      }}
-      trackColor={{ false: "#1f1f1f", true: "#f97316" }}
       value={colorScheme === "dark"}
-      collapsable
-      thumbColor={"#ffffff"}
+      onValueChange={toggleColorScheme}
+      trackColor={{ false: "#1f1f1f", true: "#f97316" }}
+      thumbColor="#ffffff"
     />
-
-  )
-
-}
+  );
+};

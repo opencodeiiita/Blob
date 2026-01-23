@@ -8,7 +8,7 @@ app.use(
   "/*",
   cors({
     origin: "*",
-    allowHeaders: ["Content-Type"],
+    allowHeaders: ["Content-Type", "Authorization"],
     allowMethods: ["POST", "GET", "OPTIONS", "DELETE", "PUT"],
   }),
 );
@@ -30,7 +30,7 @@ app.use(
   "/trpc/*",
   trpcServer({
     router: appRouter,
-    createContext: createTRPCContext,
+    createContext: (opts) => createTRPCContext({ headers: opts.req.headers }),
   }),
 );
 
