@@ -10,7 +10,6 @@ import { flashcardsRouter } from "./flashcards.js";
 import { quizzesRouter } from "./quizzes.js";
 import { mindMapsRouter } from "./mindmaps.js";
 import { settingsRouter } from "./settings.js";
-import { generateRouter } from "./generate.js";
 
 export const appRouter = router({
   // Public utility routes
@@ -40,6 +39,12 @@ export const appRouter = router({
       return ctx.db.select().from(users)
     }),
   
+  auth: authRouter,
+  topics: topicsRouter,
+  flashcards: flashcardsRouter,
+  quizzes: quizzesRouter,
+  mindmaps: mindMapsRouter,
+  settings: settingsRouter,
   generate: generateRouter,
 });
 

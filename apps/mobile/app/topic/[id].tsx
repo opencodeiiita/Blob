@@ -1,35 +1,57 @@
-import { View, Text, Pressable, ScrollView, ActivityIndicator } from 'react-native';
+import { useEffect } from 'react';
+import { View, Text, Pressable, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from 'nativewind';
-
-// TODO: Import and use tRPC hooks
-// import { trpc } from '@/utils/trpc';
-
-// Placeholder data
-const PLACEHOLDER_TOPIC = {
-  id: '1',
-  title: 'JavaScript Basics',
-  description: 'Learn the fundamentals of JavaScript programming language',
-  flashcardsCount: 12,
-  quizzesCount: 3,
-  mindMapsCount: 1,
-};
+import { trpc } from '@/utils/trpc';
 
 export default function TopicDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const utils = trpc.useUtils();
 
-  // TODO: Replace with actual tRPC query
-  // const { data, isLoading } = trpc.topics.getById.useQuery({ topicId: id });
-  const isLoading = false;
-  const topic = PLACEHOLDER_TOPIC;
+  const { data, isLoading, error } = trpc.topics.getById.useQuery({ topicId: id });
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert('Error', error.message, [
+        { text: 'Go Back', onPress: () => router.back() },
+      ]);
+    }
+  }, [error]);
+
+  const deleteTopic = trpc.topics.delete.useMutation({
+    onSuccess: () => {
+      utils.topics.getAll.invalidate();
+      router.back();
+    },
+    onError: (err: any) => {
+      Alert.alert('Error', err.message);
+    },
+  });
+
+  const topic = data?.topic;
 
   const handleGenerateAll = () => {
     // TODO: Navigate to generation screen or trigger generation
     console.log('Generate all study materials for topic:', id);
+  };
+
+  const handleDelete = () => {
+    Alert.alert(
+      'Delete Topic',
+      'Are you sure you want to delete this topic? This action cannot be undone.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => deleteTopic.mutate({ topicId: id }),
+        },
+      ]
+    );
   };
 
   const handleViewFlashcards = () => {
@@ -52,6 +74,14 @@ export default function TopicDetailScreen() {
     );
   }
 
+  if (error || !topic) {
+    return (
+      <SafeAreaView className="flex-1 items-center justify-center bg-white dark:bg-black">
+        <Text className="text-red-500">Failed to load topic</Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-black">
       <ScrollView className="flex-1">
@@ -61,10 +91,10 @@ export default function TopicDetailScreen() {
             <Ionicons name="arrow-back" size={24} color={isDark ? '#fff' : '#000'} />
           </Pressable>
           <View className="flex-1">
-            <Text className="text-xl font-bold text-gray-900 dark:text-white">{topic.title}</Text>
+            <Text className="text-xl font-bold text-gray-900 dark:text-white" numberOfLines={1}>{topic.title}</Text>
           </View>
-          <Pressable className="p-1">
-            <Ionicons name="ellipsis-vertical" size={24} color={isDark ? '#fff' : '#000'} />
+          <Pressable onPress={handleDelete} className="p-1">
+            <Ionicons name="trash-outline" size={24} color={isDark ? '#EF4444' : '#DC2626'} />
           </Pressable>
         </View>
 
@@ -97,7 +127,7 @@ export default function TopicDetailScreen() {
             <View className="flex-1">
               <Text className="font-semibold text-gray-900 dark:text-white">Flashcards</Text>
               <Text className="text-sm text-gray-600 dark:text-gray-400">
-                {topic.flashcardsCount} cards
+                0 cards
               </Text>
             </View>
             <Ionicons name="chevron-forward" size={20} color={isDark ? '#9CA3AF' : '#6B7280'} />
@@ -113,7 +143,7 @@ export default function TopicDetailScreen() {
             <View className="flex-1">
               <Text className="font-semibold text-gray-900 dark:text-white">Quizzes</Text>
               <Text className="text-sm text-gray-600 dark:text-gray-400">
-                {topic.quizzesCount} quizzes
+                0 quizzes
               </Text>
             </View>
             <Ionicons name="chevron-forward" size={20} color={isDark ? '#9CA3AF' : '#6B7280'} />
@@ -129,7 +159,7 @@ export default function TopicDetailScreen() {
             <View className="flex-1">
               <Text className="font-semibold text-gray-900 dark:text-white">Mind Maps</Text>
               <Text className="text-sm text-gray-600 dark:text-gray-400">
-                {topic.mindMapsCount} maps
+                0 maps
               </Text>
             </View>
             <Ionicons name="chevron-forward" size={20} color={isDark ? '#9CA3AF' : '#6B7280'} />

@@ -9,7 +9,7 @@ import { TRPCProvider } from '@/utils/TRPCProvider';
 import { useEffect } from 'react';
 import Constants from 'expo-constants';
 
-import { initDatabase } from '../src/db';
+import { initDatabase } from './src/db';
 import { configureGoogleSignIn } from '@/hooks/useGoogleAuth';
 import { useAuthStore } from '@/store/authStore';
 
@@ -36,7 +36,7 @@ export default function RootLayout() {
   useEffect(() => {
     initDatabase()
       .then(() => console.log('SQLite initialized'))
-      .catch(err => console.error('SQLite init failed', err));
+      .catch((err: any) => console.error('SQLite init failed', err));
   }, []);
 
   // Initialize auth state from secure storage

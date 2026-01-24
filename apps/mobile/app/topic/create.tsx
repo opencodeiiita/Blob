@@ -5,8 +5,8 @@ import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from 'nativewind';
 
-// TODO: Import and use tRPC hooks
-// import { trpc } from '@/utils/trpc';
+import { trpc } from '@/utils/trpc';
+import { Alert } from 'react-native';
 
 export default function CreateTopicScreen() {
   const { colorScheme } = useColorScheme();
@@ -14,27 +14,27 @@ export default function CreateTopicScreen() {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const utils = trpc.useUtils();
 
-  // TODO: Replace with actual tRPC mutation
-  // const createTopic = trpc.topics.create.useMutation({
-  //     onSuccess: (data) => {
-  //         router.replace(`/topic/${data.topic.id}`);
-  //     },
-  // });
+  const createTopic = trpc.topics.create.useMutation({
+    onSuccess: (data) => {
+      utils.topics.getAll.invalidate();
+      router.replace(`/topic/${data.topic.id}`);
+    },
+    onError: (error) => {
+      Alert.alert('Error', error.message);
+    },
+  });
+
+  const isLoading = createTopic.isPending;
 
   const handleCreate = async () => {
     if (!title.trim()) return;
 
-    setIsLoading(true);
-    // TODO: Call actual mutation
-    // createTopic.mutate({ title: title.trim(), description: description.trim() || undefined });
-
-    // Placeholder: simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      router.back();
-    }, 1000);
+    createTopic.mutate({
+      title: title.trim(),
+      description: description.trim() || undefined,
+    });
   };
 
   return (
